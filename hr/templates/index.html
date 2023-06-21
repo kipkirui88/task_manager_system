@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Leta - Task Manager</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{%static 'assets/css/app.min.css' %}">
+  <link rel="stylesheet" href="{%static 'assets/bundles/bootstrap-social/bootstrap-social.css' %}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{%static 'assets/css/style.css' %}">
+  <link rel="stylesheet" href="{%static 'assets/css/components.css' %}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{%static 'assets/css/custom.css' %}">
+  <link rel='shortcut icon' type='image/x-icon' href="{%static 'assets/img/light.PNG' %}"/>
+</head>
+{% block content %}
+{% if messages %}
+  <div class="container">
+    {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<body class="bg-cyan">
+  <div id="app">
+    <section class="section">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+            <div class="card card-info">
+              <div class="card-header text-center"> <!-- Modified line: Added "text-center" class -->
+                <h4>Task Manager System</h4>
+              </div><hr class="bg-cyan">
+              <div class="card-body">
+                <form method="POST" class="needs-validation">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="name">Username</label>
+                    <input id="name" type="text" class="form-control" name="username" tabindex="1" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                      <!-- <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+                      <label class="custom-control-label" for="remember-me">Remember Me</label> -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" name="login" class="btn btn-custom btn-lg btn-block bg-cyan" tabindex="4">
+                      Login
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+ 
+</body>
+{% endblock %}
+ <!-- General JS Scripts -->
+ <script src="{%static 'assets/js/app.min.js' %}"></script>
+ <!-- JS Libraies -->
+ <!-- Page Specific JS File -->
+ <!-- Template JS File -->
+ <script src="{%static 'assets/js/scripts.js' %}"></script>
+ <!-- Custom JS File -->
+ <script src="{%static 'assets/js/custom.js' %}"></script>
+</html>

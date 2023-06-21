@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Employees</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{%static 'assets/css/app.min.css' %}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{%static 'assets/bundles/datatables/datatables.min.css' %}">
+  <link rel="stylesheet" href="{%static 'assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{%static 'assets/css/style.css' %}">
+  <link rel="stylesheet" href="{%static 'assets/css/components.css' %}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{%static 'assets/css/custom.css' %}">
+  <link rel='shortcut icon' type='image/x-icon' href="{%static 'assets/img/light.PNG' %}"/>
+</head>
+
+<body>
+  <!-- <div class="loader"></div> -->
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar sticky bg-cyan">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn"> <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i data-feather="maximize"></i>
+              </a></li>
+          </ul>
+        </div>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{%static 'assets/img/light.PNG' %}"
+                class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">Hello {{ user.username }}</div>
+              <div class="dropdown-divider"></div>
+              <a href="{% url 'logout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a href="{% url 'dashboard' %}"> <img alt="image" src="{%static 'assets/img/light.PNG' %}" class="header-logo" /> <span
+              class="logo-name">LETA</span>
+          </a>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">MENU</li>
+            <li class="dropdown">
+              <a href="{% url 'users' %}" class="nav-link"><i data-feather="users"></i><span>Users</span></a>
+            </li>
+            <li class="dropdown">
+              <a href="{% url 'task' %}" class="nav-link"><i data-feather="list"></i><span>Task</span></a>
+            </li>
+            <!-- <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                  data-feather="briefcase"></i><span>Widgets</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="widget-chart.html">Chart Widgets</a></li>
+                <li><a class="nav-link" href="widget-data.html">Data Widgets</a></li>
+              </ul>
+            </li> -->
+          </ul>
+        </aside>
+      </div>
+      <!-- Add Expert Modal -->
+      <div class="modal fade" id="addExpertModal" tabindex="-1" role="dialog" aria-labelledby="addExpertModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-cyan">
+              <h5 class="modal-title" id="addExpertModalLabel">Add Employee</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                  <!-- Add Expert Form -->
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" id="username" name="username" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password" name="password" required>
+                  </div>
+                    <div class="form-group">
+                      <label for="fullName">Full Name</label>
+                      <input type="text" class="form-control" id="fullName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="contact">Contact Number</label>
+                      <input type="text" class="form-control" id="contact" name="contact" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="gender">Gender</label>
+                      <select class="form-control" name="gender">
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="department">Department</label>
+                      <input type="text" class="form-control" id="department" name="department" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="position">Position</label>
+                      <input type="text" class="form-control" id="position" name="position" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="dor">Date of Registration</label>
+                      <input type="date" class="form-control" id="dor" name="dor" required>
+                    </div>
+                    <!-- Add more form fields as needed -->
+                    <div class="modal-footer">
+                      <button type="submit" name="add_employee" class="btn btn-custom bg-cyan">Add</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- errors handling -->
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section"><button class="btn btn-custom add-user bg-cyan" data-toggle="modal" data-target="#addExpertModal">+ Add Employee</button><br><br>
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Employees List</h4>
+                  </div>{% block content %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Gender</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>D.O.R</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for employee in employees %}
+                            <tr>
+                              <td>{{ employee.name }}</td>
+                              <td>{{ employee.email }}</td>
+                              <td>{{ employee.contact }}</td>
+                              <td>{{ employee.gender }}</td>
+                              <td>{{ employee.department }}</td>
+                              <td>{{ employee.position }}</td>
+                              <td>{{ employee.dor }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>{% endblock %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{%static 'assets/js/app.min.js' %}"></script>
+  <!-- JS Libraies -->
+  <!-- Page Specific JS File -->
+  <script src="{%static 'assets/bundles/datatables/datatables.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/dataTables.buttons.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/buttons.flash.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/jszip.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/pdfmake.min.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/vfs_fonts.js' %}"></script>
+  <script src="{%static 'assets/bundles/datatables/export-tables/buttons.print.min.js' %}"></script>
+  <script src="{%static 'assets/js/page/datatables.js' %}"></script>
+  <!-- Template JS File -->
+  <script src="{%static 'assets/js/scripts.js' %}"></script>
+  <!-- Custom JS File -->
+  <script src="{%static 'assets/js/custom.js' %}"></script>
+</body>
+
+
+</html>
