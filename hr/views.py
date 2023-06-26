@@ -18,8 +18,7 @@ def Login(request):
                 return redirect('Employee/')
             else:
                 messages.error(request, 'Invalid username or password. Please try again.')
-            # The line above adds an error message to be displayed on the next page
-            # You need to import the 'messages' module from 'django.contrib' for this to work
+            
     return render(request, 'index.html')
 
 def Logout(request):

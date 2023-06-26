@@ -17,7 +17,7 @@ def Users(request):
     if request.method == 'POST':
         user = CustomUser.objects.create_user(
             username=request.POST['username'],
-            password=request.POST['password']
+            password=request.POST['password'],
         )
         user.user_type = 3  # 3 corresponds to Employee
         user.save()
@@ -42,9 +42,11 @@ def Users(request):
 
 # task views
 def Jobs(request):
-    context = {"tasks": Tasks.objects.all(),
-               "users": CustomUser.objects.all()}
-    
+    context = {
+        "tasks": Tasks.objects.all(),
+        "users": CustomUser.objects.all()
+    }
+
     if request.method == 'POST':
         employee = CustomUser.objects.get(username=request.POST.get('employee'))
         title = request.POST['title']
@@ -53,10 +55,22 @@ def Jobs(request):
         start_date = request.POST['start_date']
         due_date = request.POST['due_date']
 
-        add = Tasks(employee=employee, title=title, description=description, status=status, start_date=start_date, due_date=due_date)
-        print('task added')
+        if start_date > due_date:
+            messages.error(request, "Invalid dates: Due date cannot be before the start date.")
+            return redirect('task')
+
+        add = Tasks(
+            employee=employee,
+            title=title,
+            description=description,
+            status=status,
+            start_date=start_date,
+            due_date=due_date
+        )
         add.save()
+        messages.success(request, "Task added successfully.")
         return redirect('task')
+
     return render(request, 'dashboard/task.html', context)
 
 def edit_task(request, task_id):
