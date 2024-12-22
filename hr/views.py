@@ -22,5 +22,6 @@ def Login(request):
     return render(request, 'index.html')
 
 def Logout(request):
+    logout(request
     return redirect('/')
 
